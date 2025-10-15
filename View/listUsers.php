@@ -1,10 +1,6 @@
 <?php
-require_once '../Controller/UserController.php';
-  
-// Créer une instance de UserController
+require_once '../Controller/UserController.php';  
 $userController = new UserController();
-
-// Récupérer tous les utilisateurs
 $users = $userController->getAllUsers();
 ?>
 
@@ -169,7 +165,7 @@ $users = $userController->getAllUsers();
     <div class="container">
         <h1>👥 Liste des utilisateurs</h1>
 
-        <a href="" class="add-btn">+ Ajouter un utilisateur</a>
+        <a href="AddUser.php" class="add-btn">+ Ajouter un utilisateur</a>
 
         <table>
             <thead>
