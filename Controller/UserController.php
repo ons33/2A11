@@ -48,7 +48,22 @@ public function deleteUser($id){
 }
 
 //update user
+public function updateUser($upUser, $id){
+        $db = config::getConnexion();
+        $sql = "UPDATE user SET name = :n, email = :e WHERE id = :i";
+        try {
+             $query = $db->prepare($sql);
+                $query->execute([
+                    'n' => $upUser->getName(),
+                    'e' => $upUser->getEmail(),
+                    'i' => $id
+                ]);
 
+         
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 //get user by id
 }
 ?>
