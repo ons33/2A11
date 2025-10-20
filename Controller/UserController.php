@@ -39,7 +39,7 @@ public function deleteUser($id){
     try{
         $query=$db->prepare($sql);
         $query->execute([
-            'id'=>$id
+            'i'=>$id
         ]);
     } 
     catch(Exception $e){
@@ -50,12 +50,12 @@ public function deleteUser($id){
 //update user
 public function updateUser($upUser, $id){
         $db = config::getConnexion();
-        $sql = "UPDATE user SET name = :n, email = :e WHERE id = :i";
+        $sql = "UPDATE user SET email = :n, pwd = :e WHERE id = :i";
         try {
              $query = $db->prepare($sql);
                 $query->execute([
-                    'n' => $upUser->getName(),
-                    'e' => $upUser->getEmail(),
+                    'n' => $upUser->getemail(),
+                    'e' => $upUser->getPwd(),
                     'i' => $id
                 ]);
 
