@@ -6,8 +6,7 @@ class config {
         if (!isset(self::$pdo)) {
             try {
                 self::$pdo = new PDO(
-                    "mysql:host=localhost;
-                    dbname=2A11",  
+                    "mysql:host=localhost;dbname=2A11",  
                     "root",  // Nom d'utilisateur
                     "",  // Mot de passe vide
                     [
@@ -15,7 +14,7 @@ class config {
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                     ]
                 );
-            // echo "Connexion établie avec succès.";
+             
             } catch (Exception $e) {
                 die('Erreur : ' . $e->getMessage());
             }

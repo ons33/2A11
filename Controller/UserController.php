@@ -1,70 +1,105 @@
 <?php
-require '../Connection.php';
-class UserController{
+require_once '../Config.php';
+require_once '../Model/User.php'; 
 
-    //get all users
-public function getAllUsers(){
-    $db=config::getConnexion();
-    $sql="SELECT * FROM user";
-    try{
-        $query=$db->prepare($sql);
-        $query->execute();
-        return $query->fetchAll();
-    }
-    catch(Exception $e){
-        die('Erreur: '.$e->getMessage());
-    }
-}
+class UserController {
+    // Récupérer tous les utilisateurs
+    public function getUser() {
+        $conn = config::getConnexion(); // Connexion à la base de données
 
-//add user
-public function addUser($user1){
-    $db=config::getConnexion();
-    $sql="INSERT INTO user (email,pwd) VALUES (:e,:p)";
-    try{
-        $query=$db->prepare($sql);
-        $query->execute([
-            'e'=>$user1->getEmail(),
-            'p'=>$user1->getPwd()
-        ]);
-    }
-    catch(Exception $e){
-        die('Erreur: '.$e->getMessage());
-    }
-}
+        $sql = "SELECT * FROM user";
 
-//delete user
-public function deleteUser($id){
-    $db=config::getConnexion();
-    $sql="DELETE FROM user WHERE id=:i";
-    try{
-        $query=$db->prepare($sql);
-        $query->execute([
-            'i'=>$id
-        ]);
-    } 
-    catch(Exception $e){
-        die('Erreur: '.$e->getMessage());
-}
-}
-
-//update user
-public function updateUser($upUser, $id){
-        $db = config::getConnexion();
-        $sql = "UPDATE user SET email = :n, pwd = :e WHERE id = :i";
         try {
-             $query = $db->prepare($sql);
-                $query->execute([
-                    'n' => $upUser->getemail(),
-                    'e' => $upUser->getPwd(),
-                    'i' => $id
-                ]);
-
-         
+            $query = $conn->prepare($sql); // Préparation de la requête
+            $query->execute(); // Exécution de la requête
+            return $query->fetchAll(); // Retourne tous les résultats
         } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
+            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
         }
     }
-//get user by id
+
+    // Ajouter un utilisateur methode1
+    public function addUser($user) {
+        $conn = config::getConnexion(); // Connexion à la base de données
+        $sql = "INSERT INTO user(email, pwd) VALUES (:email, :pwd)";
+
+        try {
+            $query = $conn->prepare($sql); // Préparation de la requête(optional)
+            $query->execute([
+                ':email' => $user['email'],
+                ':pwd' => $user['pwd']
+            ]); // Exécution avec les valeurs du nouvel utilisateur
+        } catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+        }
+    }
+
+
+   
+
+    
+
+    // Supprimer un utilisateur
+   public function deleteUser($id){
+        $conn = config::getConnexion();
+        $sql="DELETE FROM user WHERE id = :id";
+        try{
+            $query=$conn->prepare($sql);
+            $query->execute([':id'=>$id]);
+        }
+        catch (Exception $e) {
+            die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+        }
+   }
+
+// Récupérer un utilisateur par ID
+public function getUserById($id){
+    $conn = config::getConnexion();
+    $sql = "SELECT * FROM user WHERE id = :id";
+    try {
+        $query = $conn->prepare($sql);
+        $query->execute([':id' => $id]);
+        return $query->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+    }
 }
-?>
- 
+
+// Mettre à jour un utilisateur
+public function updateUser($id, $email, $pwd){
+    $conn = config::getConnexion();
+    $sql = "UPDATE user SET email = :email, pwd = :pwd WHERE id = :id";
+    try {
+        $query = $conn->prepare($sql);
+        $query->execute([
+            ':email' => $email,
+            ':pwd' => $pwd,
+            ':id' => $id
+        ]);
+    } catch (Exception $e) {
+        die('Erreur: ' . $e->getMessage()); // Gestion des erreurs
+    }
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
